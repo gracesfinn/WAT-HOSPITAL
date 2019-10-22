@@ -14,7 +14,7 @@ I am required to submit two scripts:
 1. One that contains the MySQL code for the above create and Insert
 statements (Data Export).
 2. One that contains all other operations:
-a. the list of frequently used queries on the database tables.
+..a. the list of frequently used queries on the database tables.
 b. Create Index statements.
 c. Create Trigger statements.
 d. Create View statements.
