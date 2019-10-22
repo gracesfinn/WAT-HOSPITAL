@@ -157,4 +157,27 @@ modify COLUMN PPS varchar(10);
 
 insert into drug(drugID, drugName, manufacturer) values
 (
+4711501, 'Ellence', 'Johnson&Johnson' 
+),
+(
+4711502, 'Propranolol', 'Pfizer'
+),
+(
+4711503, 'Epidural', 'Bayer'
+),
+(
+4711504, 'Paracetamol', 'Sanofi'
+);
+
+insert into prescription(visitID, drugID, dosageDetails)
+values
+(
+201901, 4711504, "Take two every four hours with food"
+),
+(
+201902, 4711503, "0.0625% to 0.1 % bupivacaine with 2-4 mcg/ml fentanyl or 0.4 mcg/ml
+sufentanil"
+),
+(
+201903, 4711502, "Immediate-release: 40 mg orally 2 times a day"
 );
