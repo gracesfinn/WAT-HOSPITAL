@@ -45,3 +45,24 @@ on ward.wardID=bed.wardID
 where dischargeDate is null
 group by wardName;
 
+/* FAQ 5 Show the list of drug precriptions for each patients */
+
+select concat(fName, ' ', lName) as "Patient's Name", drugName as "Name of Drug", dosageDetails as "Recommended Dosage", concat(docFName, ' ', docLName) as "Prescribed By"
+from patient join visit
+on patient.patientID=visit.patientID
+join doctor 
+on visit.PPS=doctor.PPS
+join prescription
+on visit.visitID=prescription.visitID
+join drug
+on prescription.drugID=drug.drugID
+group by drugName;
+
+/* FAQ 6 Show the number patients assigned to each doctor */
+
+select count(*) as 'Number of Patients', concat(docFName, ' ', docLName) as "Under the care of:"
+from patient join visit
+on patient.patientID=visit.patientID
+join doctor 
+on visit.PPS=doctor.PPS
+group by docLName;
