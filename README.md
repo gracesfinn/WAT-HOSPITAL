@@ -1,4 +1,4 @@
-# WAT-HOSPITAL
+# WATERFORD-HOSPITAL
 Database for Hospital - Assignment 1
 
 Create an empty database.
@@ -12,8 +12,9 @@ Create an empty database.
 
 I am required to submit two scripts:
 1. One that contains the MySQL code for the above create and Insert
-statements (Data Export).
-2. One that contains all other operations:
+statements (Data Export). (WAT_HOSPITAL.sql)
+
+2. One that contains all other operations (WAT_HOSPITAL_2):
 * the list of frequently used queries on the database tables.
 * Create Index statements.
 * Create Trigger statements.
