@@ -117,3 +117,25 @@ update patient
 set dischargeDate = '2019-10-23'
 where patientID = 003;
 
+select *
+from patient
+where patientID like 003;
+
+/* FAQ 10 Add a new doctor to staff */
+
+insert into doctor(PPS, docFName, docLName, street, town, county, contactNo, hireDate, specialisation) values
+(
+'12345678D', 'Mary', 'Kelly', 'Main Street', 'Dungarvan', 'Waterford', '051323456', '2019-10-23', 'Radiology'
+);
+
+select *
+from doctor;
+
+/* FAQ 11 Change the specialisation of a current memeber of staff */
+update doctor
+set specialisation = 'Urology'
+where PPS = "12345678D";
+
+select *
+from doctor
+where docLName like "Kelly";
