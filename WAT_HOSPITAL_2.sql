@@ -100,7 +100,7 @@ insert into visit(visitID, patientID, PPS, visitDate) values
 
 select *
 from patient
-where patientID like 004;
+where patientID like 003;
 
 /* FAQ 8 Prescribe a new drug to a patient */
 
@@ -113,4 +113,7 @@ select *
 from prescription;
 
 /* FAQ 9 Discharge a patient */
+update patient
+set dischargeDate = '2019-10-23'
+where patientID = 003;
 
