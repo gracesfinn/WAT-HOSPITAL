@@ -4,7 +4,9 @@ desc patient;
 
 desc doctor;
 
-/* FAQ 1 List all patients in a certain ward - e.g. ER */
+/*---------Frequently Asked Questions-------*/
+
+/* FAQ 1 - List all patients in a certain ward - e.g. ER */
 select concat(fName, ' ', lName) as "Name", wardName as "Ward", bedNumber as "Bed Number"
 from patient join bed
 on patient.patientID=bed.patientID
@@ -114,8 +116,8 @@ from prescription;
 
 /* FAQ 9 Discharge a patient */
 update patient
-set dischargeDate = '2019-10-23'
-where patientID = 003;
+set dischargeDate = "2019-10-26"
+where patientID = 002;
 
 select *
 from patient
@@ -139,3 +141,62 @@ where PPS = "12345678D";
 select *
 from doctor
 where docLName like "Kelly";
+
+
+
+/* ------------Indexes------------*/
+
+create index docName 
+on doctor(docFname, docLname);
+
+show index from doctor;
+
+alter table doctor drop index docName;
+
+create index idx_patName on 
+patient(fname, lname);
+
+show index from patient;
+
+
+create index idx_addmissionDate 
+on patient(arriveDate desc);
+
+create index idx_wardName 
+on ward(wardName);
+
+/* ----------Triggers-----------*/
+
+
+create table dischargedPatient(
+dischargeDate date Primary Key,
+patientID int not null,
+fname varChar(15),
+lname varChar(15)
+);
+
+select *
+from dischargedPatient;
+
+Delimiter $$
+	create trigger after_patient_discharged
+    after update on patient
+    for each row
+begin
+	insert into dischargedPatient
+    set
+    dischargeDate = now(),
+    patientID = old.patientID,
+    fname= old.fname,
+    lname = old.lname;
+end $$
+
+select *
+from patient;
+
+update patient
+set dischargeDate = "2019-10-26"
+where patientID = 002;
+
+select *
+from dischargedPatient;
