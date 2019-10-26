@@ -166,6 +166,10 @@ create index idx_wardName
 on ward(wardName);
 
 /* ----------Triggers-----------*/
+/* Two triggers below. The first tiggers the table dischargedPatient, this updates when the discharge
+date in the patient table is updated.
+The second trigger adds the old dosage details to the table dosage change when the dosage
+is updated in teh prescription table*/
 
 
 create table dischargedPatient(

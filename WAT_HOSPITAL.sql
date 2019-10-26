@@ -51,6 +51,10 @@ CREATE TABLE IF NOT EXISTS doctor
  PRIMARY KEY(PPS)
 );
 
+alter table doctor
+change COLUMN fName docFName varchar(15),
+change COLUMN lName docLName varchar(15);
+
 CREATE TABLE IF NOT EXISTS drug
 (
 drugID INT AUTO_INCREMENT,
@@ -113,6 +117,63 @@ insert into patient(patientID, fname, lname, street, town, county, contactNo, ar
 003, 'Ben', 'Power', 'Preist Road', 'Tramore', 'Waterford', '051234567', '2019-10-03', '2019-10-10'
 );
 
+insert into patient(patientID, fname, lname, street, town, county, contactNo, arriveDate, dischargeDate) values
+(
+005, 'Jessica', 'Cullen', 'Cliff Road', 'Tramore', 'Waterford', '05114567', '2019-10-05', null
+),
+(
+006, 'Sharon', 'Duggan', 'Main Street', 'Dunhill', 'Waterford', '05156896', '2019-10-06', null
+),
+(
+007, 'Rebecca', "O'Neill", 'New Road', 'Tramore', 'Waterford', '051874653', '2019-10-10', null
+),
+(
+008, 'Louise', "Kilcommons", 'Fenor', 'Tramore', 'Waterford', '051390568', '2019-10-12', null
+),
+(
+009, 'Mark', 'Swift', 'Main Street', 'Woodstown', 'Waterford', '051948573', '2019-10-02', null
+),
+(
+010, 'Peter', 'Collins', 'Main Street', 'Kilmeadan', 'Waterford', '051748564', '2019-10-05', null
+),
+(
+011, 'Miriam', 'Nevin', 'Main Street', 'Kilmacthomas', 'Waterford', '051857463', '2019-10-12', null
+),
+(
+012, 'Tim', 'English', 'Main Street', 'Bunmahon', 'Waterford', '051857463', '2019-10-05', null
+),
+(
+013, 'Jan', 'Denton', 'Main Street', 'Dunmore East', 'Waterford', '051657483', '2019-10-10', null
+),
+(
+014, 'Larry', 'Peters', 'Main Street', 'Dungarvan', 'Waterford', '051957483', '2019-10-20', null
+),
+(
+015, 'Adam', 'Schalk', 'Main Street', 'Piltown', 'Waterford', '051657483', '2019-10-20', null
+),
+(
+016, 'Craig', 'McDonald', 'Main Street', 'Kill', 'Waterford', '051765387', '2019-10-20', null
+),
+(
+017, 'Dan', 'Cole', 'Main Street', 'Dungarvan', 'Waterford', '051765387', '2019-10-20', null
+),
+(
+018, 'Bianca', 'Chris', 'Main Street', 'Dungarvan', 'Waterford', '051837282', '2019-10-20', null
+),
+(
+019, 'Megan', 'Morgan', 'Main Street', 'Dunmore East', 'Waterford', '051847382', '2019-10-20', null
+),
+(
+020, 'Tiffany', 'Farrel', 'Main Street', 'Kilmeaden', 'Waterford', '051938475', '2019-10-20', null
+);
+
+select *
+from patient;
+
+
+
+
+
 insert into bed(bedNumber, bedType, wardID, patientID) values
 (
 01, 'Standard', 101, 003
@@ -134,6 +195,17 @@ insert into doctor(PPS, fname, lname, street, town, county, contactNo, hireDate,
 (
 '34567891C', 'Phillipa', 'Walsh', 'Old Tramore Road', 'Tramore', 'Waterford', '051987463', '2018-10-01', 'Cardiology'
 );
+
+insert into doctor(PPS, docFName, docLName, street, town, county, contactNo, hireDate, specialisation) values
+(
+'74836273E', 'William', 'Duggan', 'Doneraile Drive', 'Tramore', 'Waterford', '051876576', '2019-01-03', 'Emergency Care'
+),
+(
+'74836273E', 'Emer', 'Fine', 'New Town', 'Tramore', 'Waterford', '051873622', '2019-01-03', 'Paediatrics'
+);
+
+select *
+from doctor;
 
 alter table doctor
 modify COLUMN PPS varchar(10);
@@ -181,3 +253,85 @@ sufentanil"
 (
 201903, 4711502, "Immediate-release: 40 mg orally 2 times a day"
 );
+
+show tables;
+
+select * 
+from bed;
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+1011, 'Standard', 101, null
+),
+(
+1012, 'Standard', 101, null
+),
+(
+1013, 'Standard', 101, null
+),
+(
+1014, 'Standard', 101, null
+),
+(
+1015, 'Standard', 101, null
+);
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+2021, 'Maternity', 202, null
+),
+(
+2022, 'Maternity', 202, null
+),
+(
+2023, 'Maternity', 202, null
+),
+(
+2024, 'Maternity', 202, null
+),
+(
+2025, 'Maternity', 202, null
+);
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+1021, 'Orthopedic', 102, null
+),
+(
+1022, 'Orthopedic', 102, null
+),
+(
+1023, 'Orthopedic', 102, null
+),
+(
+1024, 'Orthopedic', 102, null
+),
+(
+1025, 'Orthopedic', 102, null
+);
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+1041, 'Standard', 104, null
+),
+(
+1042, 'Standard', 104, null
+),
+(
+1043, 'Standard', 104, null
+),
+(
+1044, 'Standard', 104, null
+),
+(
+1045, 'Standard', 104, null
+);
+
+select * 
+from bed;
+
+
+delete from bed
+where bedNumber = 003; 
+
+
