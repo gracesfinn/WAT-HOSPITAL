@@ -200,3 +200,28 @@ where patientID = 002;
 
 select *
 from dischargedPatient;
+
+Delimiter $$
+	create trigger drug_dosage_history
+    after update on prescription
+    for each row
+begin
+	insert into dosage_change
+    set
+    visitID= old.visitID,
+    drugID=old.visitID,
+    dosageDetails=old.dosageDetails,
+    changeDate=now(),
+    action = 'changed';
+end $$
+
+select *
+from dosage_change;
+
+select *
+from prescription;
+
+update prescription
+set dosageDetails = "Take two every four hours with food and water"
+where visitID = 201901;
+
