@@ -165,6 +165,55 @@ on patient(arriveDate desc);
 create index idx_wardName 
 on ward(wardName);
 
+/* -----Creation of users and granting of privilages------ */
+
+create user headAdmin identified by 'head';
+
+create user juniorAdmin identified by 'junior';
+
+grant all on wat_hospital.* 
+to headAdmin with grant option;
+
+grant insert, update, select 
+on ward 
+to juniorAdmin;
+
+grant insert, update, select, delete
+on patient 
+to juniorAdmin;
+
+show grants for juniorAdmin;
+
+revoke delete
+on patient
+from juniorAdmin;
+
+grant insert, update, select 
+on bed 
+to juniorAdmin;
+
+grant select on wat_hospital.* 
+to juniorAdmin;
+
+
+create user headPharm identified by 'headPharm';
+
+grant insert, update, select, delete 
+on drug 
+to headPharm;
+
+grant insert, update, select, delete 
+on prescription 
+to headPharm;
+
+grant select on wat_hospital.* 
+to headPharm;
+
+show grants for headPharm;
+
+select user, host from mysql.user;
+
+
 /* ----------Triggers-----------*/
 /* Two triggers below. The first tiggers the table dischargedPatient, this updates when the discharge
 date in the patient table is updated.
@@ -228,4 +277,7 @@ from prescription;
 update prescription
 set dosageDetails = "Take two every four hours with food and water"
 where visitID = 201901;
+
+
+
 
