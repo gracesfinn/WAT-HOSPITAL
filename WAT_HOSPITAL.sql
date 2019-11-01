@@ -37,6 +37,35 @@ CONSTRAINT FK_patientID FOREIGN KEY(patientID) REFERENCES patient(patientID)
 ON UPDATE CASCADE ON DELETE SET NULL
 );
 
+alter table bed
+drop wardName;
+
+alter table bed
+drop foreign key bed_ibfk_1;
+
+update bed
+set wardName='ICU'
+where wardID=102;
+
+update bed
+set wardName='Dialysis Suite'
+where wardID=103;
+
+update bed
+set wardName='Chemo Suite'
+where wardID=104;
+
+update bed
+set wardName='Pre-Natal'
+where wardID=201;
+
+update bed
+set wardName='Post-Natal'
+where wardID=202;
+
+select * from ward;
+select * from bed;
+
 CREATE TABLE IF NOT EXISTS doctor
 (
  PPS VARCHAR(10),
@@ -115,9 +144,7 @@ insert into patient(patientID, fname, lname, street, town, county, contactNo, ar
 ),
 (
 003, 'Ben', 'Power', 'Preist Road', 'Tramore', 'Waterford', '051234567', '2019-10-03', '2019-10-10'
-);
-
-insert into patient(patientID, fname, lname, street, town, county, contactNo, arriveDate, dischargeDate) values
+),
 (
 005, 'Jessica', 'Cullen', 'Cliff Road', 'Tramore', 'Waterford', '05114567', '2019-10-05', null
 ),
@@ -171,9 +198,6 @@ select *
 from patient;
 
 
-
-
-
 insert into bed(bedNumber, bedType, wardID, patientID) values
 (
 01, 'Standard', 101, 003
@@ -184,8 +208,123 @@ insert into bed(bedNumber, bedType, wardID, patientID) values
 (
 03, 'Standard', 102, 001
 );
+select * 
+from bed;
 
-insert into doctor(PPS, fname, lname, street, town, county, contactNo, hireDate, specialisation) values
+delete from bed
+where bedNumber = 01; 
+delete from bed
+where bedNumber = 02;
+delete from bed
+where bedNumber = 03;
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+1011, 'Standard', 101, null
+),
+(
+1012, 'Standard', 101, null
+),
+(
+1013, 'Standard', 101, null
+),
+(
+1014, 'Standard', 101, null
+),
+(
+1015, 'Standard', 101, null
+);
+
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+1021, 'Orthopedic', 102, null
+),
+(
+1022, 'Orthopedic', 102, null
+),
+(
+1023, 'Orthopedic', 102, null
+),
+(
+1024, 'Orthopedic', 102, null
+),
+(
+1025, 'Orthopedic', 102, null
+);
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+1031, 'Orthopedic', 103, null
+),
+(
+1032, 'Orthopedic', 103, null
+),
+(
+1033, 'Orthopedic', 103, null
+),
+(
+1034, 'Orthopedic', 103, null
+),
+(
+1035, 'Orthopedic', 103, null
+);
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+1041, 'Standard', 104, null
+),
+(
+1042, 'Standard', 104, null
+),
+(
+1043, 'Standard', 104, null
+),
+(
+1044, 'Standard', 104, null
+),
+(
+1045, 'Standard', 104, null
+);
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+2011, 'Maternity', 201, null
+),
+(
+2012, 'Maternity', 201, null
+),
+(
+2013, 'Maternity', 201, null
+),
+(
+2014, 'Maternity', 201, null
+),
+(
+2015, 'Maternity', 201, null
+);
+
+insert into bed(bedNumber, bedType, wardID, patientID) values
+(
+2021, 'Maternity', 202, null
+),
+(
+2022, 'Maternity', 202, null
+),
+(
+2023, 'Maternity', 202, null
+),
+(
+2024, 'Maternity', 202, null
+),
+(
+2025, 'Maternity', 202, null
+);
+
+select * 
+from bed;
+
+
+insert into doctor(PPS, docFName, docLName, street, town, county, contactNo, hireDate, specialisation) values
 (
 '12345678A', 'Aoife', 'Hurley', 'Dunmore Road', 'Dunmore', 'Waterford', '051345677', '2019-01-03', 'Maternity'
 ),
@@ -194,15 +333,14 @@ insert into doctor(PPS, fname, lname, street, town, county, contactNo, hireDate,
 ),
 (
 '34567891C', 'Phillipa', 'Walsh', 'Old Tramore Road', 'Tramore', 'Waterford', '051987463', '2018-10-01', 'Cardiology'
-);
-
-insert into doctor(PPS, docFName, docLName, street, town, county, contactNo, hireDate, specialisation) values
+),
 (
 '74836273E', 'William', 'Duggan', 'Doneraile Drive', 'Tramore', 'Waterford', '051876576', '2019-01-03', 'Emergency Care'
 ),
 (
 '74836273E', 'Emer', 'Fine', 'New Town', 'Tramore', 'Waterford', '051873622', '2019-01-03', 'Paediatrics'
 );
+
 
 select *
 from doctor;
@@ -256,82 +394,59 @@ sufentanil"
 
 show tables;
 
-select * 
-from bed;
 
-insert into bed(bedNumber, bedType, wardID, patientID) values
-(
-1011, 'Standard', 101, null
-),
-(
-1012, 'Standard', 101, null
-),
-(
-1013, 'Standard', 101, null
-),
-(
-1014, 'Standard', 101, null
-),
-(
-1015, 'Standard', 101, null
-);
+select * from patient;
 
-insert into bed(bedNumber, bedType, wardID, patientID) values
-(
-2021, 'Maternity', 202, null
-),
-(
-2022, 'Maternity', 202, null
-),
-(
-2023, 'Maternity', 202, null
-),
-(
-2024, 'Maternity', 202, null
-),
-(
-2025, 'Maternity', 202, null
-);
+select * from bed;
 
-insert into bed(bedNumber, bedType, wardID, patientID) values
-(
-1021, 'Orthopedic', 102, null
-),
-(
-1022, 'Orthopedic', 102, null
-),
-(
-1023, 'Orthopedic', 102, null
-),
-(
-1024, 'Orthopedic', 102, null
-),
-(
-1025, 'Orthopedic', 102, null
-);
+select * from ward;
 
-insert into bed(bedNumber, bedType, wardID, patientID) values
-(
-1041, 'Standard', 104, null
-),
-(
-1042, 'Standard', 104, null
-),
-(
-1043, 'Standard', 104, null
-),
-(
-1044, 'Standard', 104, null
-),
-(
-1045, 'Standard', 104, null
-);
+update bed
+set patientId=2
+where bedNumber=2012;
 
-select * 
-from bed;
+update bed
+set patientId=3
+where bedNumber=1021;
 
+update bed
+set patientId=9
+where bedNumber=1023;
 
-delete from bed
-where bedNumber = 003; 
+update bed
+set patientId=10
+where bedNumber=1031;
+
+update bed
+set patientId=11
+where bedNumber=1033;
+
+update bed
+set patientId=12
+where bedNumber=1043;
+update bed
+set patientId=13
+where bedNumber=2022;
+
+update bed
+set patientId=14
+where bedNumber=1041;
+
+update bed
+set patientId=15
+where bedNumber=1035;
+
+update bed
+set patientId=16
+where bedNumber=1013;
+
+update bed
+set patientId=19
+where bedNumber=2021;
+
+update bed
+set patientId=20
+where bedNumber=2024;
+
 
 
