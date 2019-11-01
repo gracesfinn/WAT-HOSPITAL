@@ -1,6 +1,11 @@
+/*------Creation of Database-------*/
+
 CREATE DATABASE IF NOT EXISTS WAT_HOSPITAL;
 
+/*------To use this Database-------*/
 USE WAT_HOSPITAL;
+
+/*------Creation of tables---------*/
 
 CREATE TABLE IF NOT EXISTS ward
 (
@@ -24,6 +29,9 @@ patientID int AUTO_INCREMENT,
  PRIMARY KEY (patientID)
 );
 
+alter table patient
+modify arriveDate datetime;
+
 CREATE TABLE IF NOT EXISTS bed
 (
 bedNumber int AUTO_INCREMENT,
@@ -37,34 +45,7 @@ CONSTRAINT FK_patientID FOREIGN KEY(patientID) REFERENCES patient(patientID)
 ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-alter table bed
-drop wardName;
 
-alter table bed
-drop foreign key bed_ibfk_1;
-
-update bed
-set wardName='ICU'
-where wardID=102;
-
-update bed
-set wardName='Dialysis Suite'
-where wardID=103;
-
-update bed
-set wardName='Chemo Suite'
-where wardID=104;
-
-update bed
-set wardName='Pre-Natal'
-where wardID=201;
-
-update bed
-set wardName='Post-Natal'
-where wardID=202;
-
-select * from ward;
-select * from bed;
 
 CREATE TABLE IF NOT EXISTS doctor
 (
@@ -105,6 +86,8 @@ CONSTRAINT FK_doc FOREIGN KEY(PPS) REFERENCES doctor(PPS)
 ON UPDATE CASCADE ON DELETE SET NULL
 );
 
+
+
 CREATE TABLE IF NOT EXISTS prescription
 (
 visitID int,
@@ -114,6 +97,8 @@ PRIMARY KEY (visitID, drugID),
 CONSTRAINT FK_vis FOREIGN KEY(visitID) REFERENCES visit(visitID),
 CONSTRAINT FK_drug FOREIGN KEY(drugID) REFERENCES drug(drugID) 
 );
+
+/*-----Population of Tables-------*/
 
 insert into ward(wardID, wardName, wardType) values
 (
@@ -134,6 +119,11 @@ insert into ward(wardID, wardName, wardType) values
 (
 '202', 'Post-Natal', 'Maternity'
 );
+
+select *
+from ward;
+
+/*-----------------------------------------------------------------------------------*/
 
 insert into patient(patientID, fname, lname, street, town, county, contactNo, arriveDate, dischargeDate) values
 (
@@ -194,9 +184,10 @@ insert into patient(patientID, fname, lname, street, town, county, contactNo, ar
 020, 'Tiffany', 'Farrel', 'Main Street', 'Kilmeaden', 'Waterford', '051938475', '2019-10-20', null
 );
 
-select *
+select * 
 from patient;
 
+/*-----------------------------------------------------------------------------------*/
 
 insert into bed(bedNumber, bedType, wardID, patientID) values
 (
@@ -323,6 +314,7 @@ insert into bed(bedNumber, bedType, wardID, patientID) values
 select * 
 from bed;
 
+/*-----------------------------------------------------------------------------------*/
 
 insert into doctor(PPS, docFName, docLName, street, town, county, contactNo, hireDate, specialisation) values
 (
@@ -351,19 +343,66 @@ modify COLUMN PPS varchar(10);
 alter table doctor
 modify COLUMN street varchar(30);
 
+/*-----------------------------------------------------------------------------------*/
+
 insert into visit(visitID, patientID, PPS, visitDate) values
 (
-201901, 001, '34567891C', '2019-10-22'
+201905, 8, "74836273E", '2019-10-'
 ),
 (
-201902, 002, '12345678A', '2019-10-10'
+201906, 18, "12345678A", '2019-10-20'
 ),
 (
-201903, 003, '23456789B', '2019-10-14'
+201907, 6, "12345678A", '2019-10-06'
+),
+(
+201910, 16, "34567891C", '2019-10-20'
+),
+(
+201908, 12, "34567891C", '2019-10-05'
+),
+(
+201909, 20, "34567891C", '2019-10-20'
+),
+(
+201911, 9, "23456789B", '2019-10-02'
+),
+(
+201912, 13, "23456789B", '2019-10-10'
+),
+(
+201913, 12, "23456789B", '2019-10-05'
+),
+(
+201914, 11, "23456789B", '2019-10-12'
+),
+(
+201915, 10, "74836273E", '2019-10-05'
+),
+(
+201916, 14, "74836273E", '2019-10-20'
+),
+(
+201917, 15, "74836273E", '2019-10-20'
+),
+(
+201918, 19, "74836273E", '2019-10-20'
+),
+(
+201919, 5, "47362818F", '2019-10-05'
+),
+(
+201920, 7, "47362818F", '2019-10-10'
+),
+(
+201922, 17, "12345678D", '2019-10-20'
 );
 
-alter table visit
-modify COLUMN PPS varchar(10);
+
+select * from visit order by patientId;
+
+/*-----------------------------------------------------------------------------------*/
+
 
 insert into drug(drugID, drugName, manufacturer) values
 (
@@ -379,6 +418,11 @@ insert into drug(drugID, drugName, manufacturer) values
 4711504, 'Paracetamol', 'Sanofi'
 );
 
+select *
+from drug;
+
+/*-----------------------------------------------------------------------------------*/
+
 insert into prescription(visitID, drugID, dosageDetails)
 values
 (
@@ -390,9 +434,28 @@ sufentanil"
 ),
 (
 201903, 4711502, "Immediate-release: 40 mg orally 2 times a day"
+),
+(
+201905, 4711501, "Epirubicin 100 mg/m² IV, AND 5-fluorouracil 500 mg/m² IV, AND cyclophosphamide 500 mg/m² IV"
+),
+(
+201906, 4711503, "0.0625% to 0.1 % bupivacaine with 2-4 mcg/ml fentanyl or 0.4 mcg/ml
+sufentanil"
+),
+(
+201907, 4711502, "Immediate-release: 40 mg orally 2 times a day"
 );
+select *
+from prescription;
 
-show tables;
+/*-----------------------------------------------------------------------------------*/
+
+/*Updates to tables*/
+
+/*-----------------------------------------------------------------------------------*/
+update doctor
+set PPS = "47362818F"
+where docLName = "Fine";
 
 
 update bed
