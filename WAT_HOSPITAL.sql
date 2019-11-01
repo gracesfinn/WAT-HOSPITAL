@@ -395,12 +395,6 @@ sufentanil"
 show tables;
 
 
-select * from patient;
-
-select * from bed;
-
-select * from ward;
-
 update bed
 set patientId=2
 where bedNumber=2012;

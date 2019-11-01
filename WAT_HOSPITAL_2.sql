@@ -1,9 +1,5 @@
 USE WAT_HOSPITAL; 
 
-desc patient;
-
-desc doctor;
-
 /*---------Frequently Asked Questions-------*/
 
 /* FAQ 1 - List all patients in a certain ward - e.g. ER */
