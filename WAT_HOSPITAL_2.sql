@@ -3,6 +3,7 @@ USE WAT_HOSPITAL;
 /*---------Frequently Asked Questions-------*/
 
 /* FAQ 1 - List all patients in a certain ward - e.g. ER */
+
 select concat(fName, ' ', lName) as "Name", wardName as "Ward", bedNumber as "Bed Number"
 from patient join bed
 on patient.patientID=bed.patientID
@@ -21,6 +22,7 @@ on ward.wardID=bed.wardID
 where dischargeDate is null;
 
 /* FAQ 3 Show the number of patients under each doctors care */
+
 select count(*) as 'Number of Patients', concat(docFName, ' ', docLName) as "Under the care of:"
 from visit join patient
 on patient.patientID=visit.patientID
@@ -54,14 +56,13 @@ group by wardName;
 
 /* FAQ 5 Show number of empty bed in each ward */
 
-
 select count(*) as "Number of Empty Bed", wardName as "Name of Ward", wardType as "Department"
 from bed join ward
 on ward.wardID=bed.wardID
 where patientID is null
 group by wardName;
 
-/* FAQ 5 Show the list of drug precriptions for each patients */
+/* FAQ 6 Show the list of drug precriptions for each patients */
 
 select concat(fName, ' ', lName) as "Patient's Name", drugName as "Name of Drug", dosageDetails as "Recommended Dosage", concat(docFName, ' ', docLName) as "Prescribed By"
 from patient join visit
@@ -75,7 +76,7 @@ on prescription.drugID=drug.drugID
 group by drugName;
 
 
-/* FAQ 6 Add a new patient */
+/* FAQ 7 Add a new patient */
 insert into patient( fname, lname, street, town, county, contactNo, arriveDate, dischargeDate) values
 (
 'Billy', 'Powell', 'Monvoy', 'Tramore', 'Waterford', '051789567', now() , null
@@ -83,30 +84,38 @@ insert into patient( fname, lname, street, town, county, contactNo, arriveDate, 
 
 select *
 from patient
-where lname like "Powell"; /* Gets the patientId which is generated */ 
+where lname like "Powell"; /* Unsures new patient has been added */ 
 
 
-/* FAQ 7 Assign a new patient to a bed in ward */
+/* FAQ 8 Assign a new patient to a bed in ward */
 select bedNumber, wardName
 from bed join ward
 on bed.wardId=ward.wardId
 where patientId is null; /*Shows which beds are free*/
 
 update bed
-set patientId= 22
-where bedNumber=1015;
+set patientId= (select patientID from patient order by patientID desc limit 1)   /* Auto inserts new patient ID */
+where bedNumber= 1022 ; /* Insert empty bed number */
 
-/* FAQ 8 Assign a new patient to a doctor */
+select patientID
+from bed
+where bedNumber=1022; /*Check if the bed has been updated*/
+
+/* FAQ 9 Assign a new patient to a doctor */
 select * from visit;
 select * from doctor;
 
 insert into visit( patientID, PPS, visitDate) values
 (
-22, "12345678D", now()
+(select patientID from patient order by patientID desc limit 1), "12345678D", now()
 );
 
+select *
+from visit;
 
-/* FAQ 9 Prescribe a new drug to a patient */
+
+/* FAQ 10 Prescribe a new drug to a patient */
+
 select * from visit;
 select * from drug;
 insert prescription(visitID, drugID, dosageDetails) values
@@ -117,7 +126,8 @@ insert prescription(visitID, drugID, dosageDetails) values
 select * 
 from prescription;
 
-/* FAQ 10 Discharge a patient */
+/* FAQ 11 Discharge a patient */
+
 update patient
 set dischargeDate = "2019-10-26"
 where patientID = 002;
@@ -126,7 +136,7 @@ select *
 from patient
 where patientID like 002;
 
-/* FAQ 11 Add a new doctor to staff */
+/* FAQ 12 Add a new doctor to staff */
 
 insert into doctor(PPS, docFName, docLName, street, town, county, contactNo, hireDate, specialisation) values
 (
@@ -136,7 +146,7 @@ insert into doctor(PPS, docFName, docLName, street, town, county, contactNo, hir
 select *
 from doctor;
 
-/* FAQ 12 Change the specialisation of a current memeber of staff */
+/* FAQ 13 Change the specialisation of a current memeber of staff */
 update doctor
 set specialisation = 'Urology'
 where PPS = "12345678D";
@@ -152,9 +162,12 @@ where docLName like "Kelly";
 create index docName 
 on doctor(docFname, docLname);
 
+select *
+from doctor;
+
 show index from doctor;
 
-alter table doctor drop index docName;
+alter table doctor drop index idx_docName;
 
 create index idx_patName on 
 patient(fname, lname);
@@ -221,7 +234,7 @@ select user, host from mysql.user;
 /* Two triggers below. The first tiggers the table dischargedPatient, this updates when the discharge
 date in the patient table is updated.
 The second trigger adds the old dosage details to the table dosage change when the dosage
-is updated in teh prescription table*/
+is updated in the prescription table*/
 
 
 create table dischargedPatient(
@@ -246,13 +259,14 @@ begin
     fname= old.fname,
     lname = old.lname;
 end $$
+delimiter ;
 
 select *
 from patient;
 
 update patient
-set dischargeDate = "2019-10-26"
-where patientID = 002;
+set dischargeDate = "2019-10-29"
+where patientID = 003;
 
 select *
 from dischargedPatient;
@@ -270,6 +284,7 @@ begin
     changeDate=now(),
     action = 'changed';
 end $$
+delimiter ;
 
 select *
 from dosage_change;
