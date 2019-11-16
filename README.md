@@ -12,7 +12,7 @@ Create an empty database.
 
 I am required to submit two scripts:
 1. One that contains the MySQL code for the above create and Insert
-statements (Data Export). (WAT_HOSPITAL.sql)
+statements (Data Export). (WAT_HOSPITAL.sql or watExport.sql)
 
 2. One that contains all other operations (WAT_HOSPITAL_2):
 * the list of frequently used queries on the database tables.
